@@ -7,12 +7,12 @@ fi
 # hotspot
 uci set wireless.wifi_wlan0='wifi-iface'
 uci set wireless.wifi_wlan0.device=radio0
-# uci set wireless.wifi_wlan0.ifname=wlan0
 uci set wireless.wifi_wlan0.encryption=none
 uci set wireless.wifi_wlan0.mode=ap
-uci set wireless.wifi_wlan0.network=lan
-uci set wireless.wifi_wlan0.ssid=ninux.org-basilicata
+uci set wireless.wifi_wlan0.network=hotspot
+uci set wireless.wifi_wlan0.ssid=ninux.org-hotspot
 uci set wireless.wifi_wlan0.wds=1
+uci set wireless.wifi_wlan0.isolate=1
 # enable radio0 if present
 radio0=$(uci get wireless.radio0 2> /dev/null)
 if [ "$radio0" == "wifi-device" ]; then

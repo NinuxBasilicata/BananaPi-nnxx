@@ -1,0 +1,37 @@
+#!/bin/sh
+
+uci add firewall zone
+uci set firewall.@zone[-1].name=hotspot
+uci add_list firewall.@zone[-1].network=hotspot
+uci set firewall.@zone[-1].input=REJECT
+uci set firewall.@zone[-1].forward=REJECT
+uci set firewall.@zone[-1].output=ACCEPT
+
+uci add firewall forwarding
+uci set firewall.@forwarding[-1].src=hotspot
+uci set firewall.@forwarding[-1].dest=wan
+
+uci add firewall rule
+uci set firewall.@rule[-1].name=icmp-echo-request
+uci set firewall.@rule[-1].src=hotspot
+uci set firewall.@rule[-1].target=ACCEPT
+uci set firewall.@rule[-1].proto=icmp
+uci set firewall.@rule[-1].icmp_type=echo-request
+
+uci add firewall rule
+uci set firewall.@rule[-1].name=dhcp
+uci set firewall.@rule[-1].src=hotspot
+uci set firewall.@rule[-1].target=ACCEPT
+uci set firewall.@rule[-1].proto=udp
+uci set firewall.@rule[-1].src_port=67-68
+uci set firewall.@rule[-1].dest_port=67-68
+
+uci add firewall rule
+uci set firewall.@rule[-1].name=dns
+uci set firewall.@rule[-1].src=hotspot
+uci set firewall.@rule[-1].target=ACCEPT
+uci set firewall.@rule[-1].proto=tcpudp
+uci set firewall.@rule[-1].dest_port=53
+
+commit firewall
+exit 0

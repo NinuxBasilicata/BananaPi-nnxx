@@ -1,0 +1,11 @@
+#!/bin/sh
+uci batch <<-EOF
+	set dhcp.hotspot=dhcp
+	set dhcp.hotspot.interface=hotspot
+	set dhcp.hotspot.start=100
+	set dhcp.hotspot.limit=200
+	add_list dhcp.hotspot.dhcp_option=6,8.8.8.8
+	set dhcp.hotspot.leasetime=30m
+commit dhcp
+EOF
+exit 0

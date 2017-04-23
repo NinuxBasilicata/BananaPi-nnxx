@@ -35,7 +35,14 @@ cp -R $compile/custom/etc/config/firewall $compile/source/files/etc/config/
 cp -R $compile/custom/etc/config/olsrd2 $compile/source/files/etc/config/
 cp -R $compile/custom/etc/config/openvpn $compile/source/files/etc/config/
 cp -R $compile/custom/etc/config/openwisp $compile/source/files/etc/config/
+
+if [ $VERSION = "BASE" ]; then
 cp $compile/custom/etc/uci-defaults/* $compile/source/package/base-files/files/etc/uci-defaults/
+fi
+
+if [ $VERSION = "HOTSPOT" ]; then
+cp $compile/custom/hotspot/uci-defaults/* $compile/source/package/base-files/files/etc/uci-defaults/
+fi
 
 if [ $VERSION = "HOTSPOT" ]; then
 	cp -R $compile/custom/hotspot/config/nodogsplash $compile/source/files/etc/config/
@@ -52,7 +59,7 @@ mv $compile/source/.config $compile/Firmware/openwrt/$VERSION/config.txt && \
 mv $compile/source/bin/sunxi/md5sums $compile/Firmware/openwrt/$VERSION/
 
 if [ $VERSION = "HOTSPOT" ]; then
-	rm -rf $compile/source/files/
+	rm -rf $compile/source
 fi
 
 echo "Scrivi la tua MicroSD con il comando"
