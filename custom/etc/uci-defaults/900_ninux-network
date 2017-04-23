@@ -1,0 +1,17 @@
+#!/bin/sh
+uci batch <<-EOF
+    set network.ninux=interface
+    set network.ninux.ifname=ninux
+    set network.ninux.proto=none
+
+    set network.hotspot=interface
+    set network.hotspot.ifname='hotspot'
+    set network.hotspot._orig_ifname='hotspot'
+    set network.hotspot._orig_bridge='false'
+    set network.hotspot.proto='static'
+    set network.hotspot.ipaddr='192.168.200.1'
+    set network.hotspot.netmask='255.255.255.0'
+    set network.hotspot.type='bridge'
+commit network
+EOF
+exit 0

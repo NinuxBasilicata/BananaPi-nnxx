@@ -1,0 +1,23 @@
+#!/bin/sh
+# remove default OpenWrt or LEDE wifi interfaces if present
+ssid0=$(uci get wireless.@wifi-iface[0].ssid 2> /dev/null)
+if [ "$ssid0" == "OpenWrt" ] || [ "$ssid0" == "lede" ]; then
+    uci delete wireless.@wifi-iface[0]
+fi
+# hotspot
+uci set wireless.wifi_wlan0='wifi-iface'
+uci set wireless.wifi_wlan0.device=radio0
+# uci set wireless.wifi_wlan0.ifname=wlan0
+uci set wireless.wifi_wlan0.encryption=none
+uci set wireless.wifi_wlan0.mode=ap
+uci set wireless.wifi_wlan0.network=hotspot
+uci set wireless.wifi_wlan0.ssid=ninux.org-hotspot
+uci set wireless.wifi_wlan0.wds=1
+# enable radio0 if present
+radio0=$(uci get wireless.radio0 2> /dev/null)
+if [ "$radio0" == "wifi-device" ]; then
+    uci set wireless.radio0.disabled=0
+fi
+# commit
+uci commit wireless
+exit 0
